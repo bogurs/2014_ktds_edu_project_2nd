@@ -1,0 +1,5 @@
+body { position: relative; }
+.popup-div { opacity: 0; display: none; position: relative; width: auto;}
+.popup-style { border: 5px solid #0ECFB5; padding: 20px; background-color: #fff; }
+.b-close { position: absolute; right: 5px; top: 5px; padding: 5px; display: inline-block; cursor: pointer; }
+.button { padding: 5px 10px; border: 1px solid #666; display: inline-block; cursor: pointer; }

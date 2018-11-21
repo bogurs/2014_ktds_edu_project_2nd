@@ -1,0 +1,74 @@
+@import url(http://fonts.googleapis.com/earlyaccess/nanumgothic.css);
+
+body{
+	margin-top:75px;
+	width: 100% auto;
+	padding: 0;
+	margin: auto;
+	overflow: auto;
+}
+
+#main_header{
+	position:fixed;
+	top:0px;
+	left:0px;
+	height: 75px;   
+	background-image:url(/closet/resources/img/wood.JPG);
+/* 	background-color:black; */
+	width:100%;
+	font-weight: 800;
+	color: white;
+	font-family :'Nanum Gothic', Dotum, "돋움", Gulim, "굴림", Verdana, Arial, "Trebuchet MS";
+   z-index:20;
+ 
+}
+#main_header > #title{		
+	position : fixed;
+	left: 450px; 
+}
+#main_header > #nav_login{
+	position: fixed;
+	left: 1000px; 
+}
+#main_header > #nav_login > ul {overflow: hidden;}
+#main_header > #nav_login > ul > li {
+	float: left; list-style: none; 
+}
+#main_header > .button {top: 7px; left: 1300px;}
+
+
+#content{
+
+   background: url(/closet/resources/img/main_content.jpg);
+   margin: 0 auto;
+   overflow: hidden;
+}
+#content > #left_slide{
+	margin-top:75px;
+	position:fixed;
+	width: 20px; height: 720px;
+	top: 10px;
+	left: 20px;
+	color: white;
+	
+	float: left;
+	
+	
+}
+#content > #main_section{
+/* 	margin-top:75px; */
+	width: 500px;
+	top: 100px;
+	left: 30px;
+	position: relative;
+	overflow: hidden;
+	float: left;
+	z-index:10;
+}
+#content > #right_slide{
+	position:fixed;
+	top: 100px;
+	left: 660px;
+	position: relative;
+	float: left;
+}

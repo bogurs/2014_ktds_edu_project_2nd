@@ -1,0 +1,137 @@
+@import url(http://fonts.googleapis.com/earlyaccess/nanumgothic.css);
+
+body{
+	overflow-y: scroll;
+	margin: 0;
+	font-family :'Nanum Gothic', Dotum, "돋움", Gulim, "굴림", Verdana, Arial, "Trebuchet MS";
+}
+
+#headerContainer{
+	position: fixed !important;
+	z-index: 300;
+	left: 0;
+	right: 0;
+	top: 0;
+}
+#headerWrapper{
+	z-index:20;
+	height: 88px;
+	min-width: 980px;
+	color: white;
+	font-weight: 800;
+	
+	background: #1cd8c9; /* Old browsers */
+	background: -moz-linear-gradient(top,  #1cd8c9 0%, #79e5d5 100%, #7db9e8 100%, #2989d8 100%); 
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#1cd8c9), color-stop(100%,#79e5d5), color-stop(100%,#7db9e8), color-stop(100%,#2989d8)); 
+	background: -webkit-linear-gradient(top,  #1cd8c9 0%,#79e5d5 100%,#7db9e8 100%,#2989d8 100%); 
+	background: -o-linear-gradient(top,  #1cd8c9 0%,#79e5d5 100%,#7db9e8 100%,#2989d8 100%);
+	background: -ms-linear-gradient(top,  #1cd8c9 0%,#79e5d5 100%,#7db9e8 100%,#2989d8 100%); 
+	background: linear-gradient(to bottom,  #1cd8c9 0%,#79e5d5 100%,#7db9e8 100%,#2989d8 100%); 
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1cd8c9', endColorstr='#2989d8',GradientType=0 ); 
+}
+#headerWrapper > #main_header{
+	margin: 0 auto;
+	width: 980px;
+	height: 90px;
+}
+#headerWrapper > #main_header > .main_logo_a{
+	float: left;
+	text-decoration: none;
+}
+#headerWrapper > #main_header > .main_logo_a > .main_logo{		
+	width: 170px;
+	height: 36px;
+	background-position: 0 -481px;
+	color: white;
+	font-size: 40px;
+}
+#main_header > #nav_login{
+	float: right;
+	margin: 0;
+	padding: 0;
+	margin-top:-10px;
+}
+
+
+#main_header_nav{
+	background: url(/closet/resources/img/gray.jpg);
+	z-index:20;
+	margin: 0 auto;
+	position: relative;
+	zoom: 1;
+	height: 40px;
+	min-width: 980px;
+}
+#main_header_nav > #navigator{
+	position: absolute;
+	left:0;
+}
+#main_header_nav > #submenubar{
+	margin: 0 auto;
+	width: 980px;
+	height: 37px;
+}
+#main_header_nav > #submenubar table{
+	margin: 0 auto;
+	
+	
+/* 	padding: 0; */
+	
+}
+#main_header_nav > #submenubar table td{
+	padding-left: 60px;
+	padding-right: 60px;
+	padding-top: 0px;
+}
+#main_header_nav > #submenubar table td a{
+	color: white;
+	text-decoration: none;
+	font-size: 20px;
+	font-weight: 700;
+	padding-bottom: 10px;
+}
+
+
+#content{
+   background: url(/closet/resources/img/main.jpg);
+   margin: 0 auto;
+   position: relative;
+   zoom: 1;
+   min-height: 980px;
+}
+#main_section{
+	margin: 0 auto;
+	max-width: 980px;
+	margin-top: 128px;
+}
+#main_section > #main_articles table{
+	float: left;
+	border-style: outset;
+	border-color:#1DE9C0;
+	margin:0.5em;
+	BORDER-COLLAPSE:collapse;
+}
+
+
+#content > #right_slide{
+	position: absolute;
+	left: 1450px;
+}
+#content > #right_slide table{
+	background-color: #d0dcd0;
+}
+
+
+
+
+
+
+/* 이미지 관련 css */
+#main_img {
+   width: 300px;
+   height: 350px;
+}
+
+#fcount {
+   cursor: pointer;
+}

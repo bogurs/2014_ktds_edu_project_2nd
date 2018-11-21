@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ktds.closet.dao.EtcDao">
+	<insert id="join" parameterType="joinVO">
+		insert into member
+		values(#{email}, #{name}, #{pass}, #{year}, #{month},#{day},#{gender},null, null, null, truncate((extract(year from sysdate())-#{year}+1)/10, 0))
+	</insert>
+
+	<select id="login_check" parameterType="String" resultType="String">
+		select pass from member where email=#{email}
+	</select>
+
+	<select id="getNamebyEmail" parameterType="String" resultType="String">
+		select name from member where email=#{email}
+	</select>
+	
+	<select id="weatherStyleReadList" resultType="weatherVO">
+		select * from weather order by weather_num desc
+	</select>
+	
+	<insert id="weatherStyleWrite" parameterType="weatherVO">
+		insert into weather values(null, #{content}, #{email}, #{name}, sysdate())
+	</insert>
+	
+<!-- 	길민균길민균길민균길민균길민균길민균길민균길민균길민균길민균 -->
+<!-- 	 길민균 -->
+	
+   <select id="keyword" resultType="TagVO">
+      select email, name from member   
+   </select>
+	
+   <select id="searchid" resultType="TagVO">
+      select email, name from member where name=#{name}
+   </select>
+   
+<!--       <select id="searchfriend" parameterType="String" resultType="FriendVO"> -->
+<!--       select fdname, fdemail from friend where name=#{name} -->
+<!--    </select> -->
+   
+
+   <select id="fdmanageview" parameterType="String" resultType="FriendVO">
+      select fdmanage_seq_no,name,email,fdname,fdemail from fdmanage where fdemail=#{myemail}
+   </select> 
+   <insert id="addfollow" parameterType="FriendVO">
+	   insert into follow values(null, #{name}, #{email}, #{fdname}, #{fdemail})
+	</insert>
+	<delete id="deletefollow" parameterType="FriendVO">
+		delete from follow where email=#{email} and fdemail=#{fdemail}
+	</delete>
+	<select id="friendlist" parameterType="String" resultType="FriendVO">
+		select friend_seq_no,fdname,fdemail from follow where email=#{email} order by fdname
+	</select>
+	<select id="followerlist" parameterType="String" resultType="FriendVO">
+		select friend_seq_no, name, email from follow where fdemail=#{email} order by name
+	</select>
+	<select id="profileview" parameterType="String" resultType="JoinVO">
+		select * from member where email=#{email}
+	</select>
+	<update id="updateprofile" parameterType="JoinVO">
+<!-- 		update member set pass=#{pass} where email=#{email} -->
+		update member set kg=#{kg},cm=#{cm},status=#{status} where email=#{email}
+	</update>
+	<insert id="InsertprofileImage" parameterType="imageVO">
+		INSERT INTO profileIMAGE VALUES(null, #{imagefile}, #{image_name},#{physical_name},SYSDATE(), #{email})
+	</insert>
+	
+	<select id="profileImageDown" parameterType="String" resultType="imageVO">
+		select imagefile from profileimage where email=#{email}
+	</select>
+	<delete id="deleteprofileimage" parameterType="String">
+		delete from profileimage where email=#{email}
+	</delete>
+	<insert id="addactionlog" parameterType="FriendVO">
+		INSERT INTO actionlog VALUES(#{email},#{name}, #{fdemail},#{fdname}, sysdate(),#{action},#{article_num})
+	</insert>
+	<select id="actionlogview"  parameterType="String" resultType="FriendVO">
+		select * from actionlog where fdemail=#{email} order by logdate desc
+	</select>
+	<select id="searchId" parameterType="String" resultType="String">
+		select email from member where email=#{email}
+	</select>
+	<select id="searchfollow" parameterType="FriendVO" resultType="String">
+		select fdemail from follow where email=#{email} and fdemail=#{fdemail}
+	</select>
+	
+</mapper>

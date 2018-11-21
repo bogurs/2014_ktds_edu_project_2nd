@@ -1,0 +1,74 @@
+10
+
+dir
+672
+https://dev.naver.com/svn/closet/Project_closet/src/main/webapp/WEB-INF
+https://dev.naver.com/svn/closet
+
+
+
+2014-05-07T17:26:39.092117Z
+672
+nbb_pinetree
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+d7a34366-94f6-0410-b4b5-eebd652ec35e
+
+classes
+dir
+
+lib
+dir
+
+spring
+dir
+
+views
+dir
+
+web.xml
+file
+
+
+
+
+2014-05-07T00:49:35.527000Z
+3b6f1c8ab2a0581ab605bb86c5d5420b
+2014-05-06T07:54:54.172492Z
+540
+dudwnssl
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+2418
+

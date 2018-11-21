@@ -1,0 +1,49 @@
+package com.ktds.closet.dao;
+
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
+import com.ktds.closet.vo.ArticleVO;
+import com.ktds.closet.vo.FriendVO;
+import com.ktds.closet.vo.ImageVO;
+import com.ktds.closet.vo.JoinVO;
+import com.ktds.closet.vo.TagVO;
+import com.ktds.closet.vo.WeatherVO;
+
+public interface EtcDao {
+	//join
+	public boolean join(JoinVO joinVO);
+	//login
+	public String login_check(String email);
+	//getNamebyEmail
+	public String getNamebyEmail(String email);
+	public void inserttag(HttpServletRequest req);
+
+	public void writeArticle(ArticleVO article);
+	public List<ArticleVO> showMyArticle(String email);
+	
+	//weatherStyle
+	public List<WeatherVO> weatherStyleReadList();
+	public void weatherStyleWrite(WeatherVO weatherVO);
+
+	//==길민균==//	
+	public List<TagVO> keyword();
+	public List<TagVO> searchid(String name);
+
+	public List<FriendVO> fdmanageview(String myemail);
+	public void addfollow(FriendVO friendVO);
+	public List<FriendVO> friendlist(String email);
+	public List<FriendVO> searchfriend(String name);
+	public List<JoinVO> profileview(String email);
+	public void InsertprofileImage(ImageVO image);
+	public void updateprofile(JoinVO profile);
+	public ImageVO profileImageDown(String email);
+	public void deleteprofileimage(String email);
+	public void deletefollow(FriendVO follow);
+	public List<FriendVO> followerlist(String email);
+	public void addactionlog(FriendVO friendVO);
+	public List<FriendVO> actionlogview(String email);
+	public String searchId(String id);
+	public String searchfollow(FriendVO friend);
+}

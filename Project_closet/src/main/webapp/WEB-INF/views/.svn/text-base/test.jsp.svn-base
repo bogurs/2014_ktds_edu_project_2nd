@@ -1,0 +1,47 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<script src="resources/js/Etcjs.js"></script>
+<script src="resources/js/dimmedpopup.js"></script>
+<title>Insert title here</title>
+<style type="text/css">
+#logdiv{
+	width: 560px;
+	height: 300px;
+	overflow-y: scroll;
+}
+</style>
+</head>
+<body>
+<div id="logdiv">
+   	<c:if test="${empty action}">
+         <b>활동 로그가 없습니다.</b>
+         <br>
+         <b>활동 로그는 매월 21일 초기화 됩니다.</b>
+      </c:if>
+<c:if test="${action!=null}">
+  <c:forEach var="action" items="${action}">
+ 
+      
+	<c:if test='${action.action=="글좋아요" and action.email!=action.fdemail}'>
+	<a href="javascript:popupcontent(${action.article_num},0)" ><hr><div>${action.name}님이 ${action.fdname}님의 글을 '좋아요' 하셨습니다. ${action.sysdate1}</div><hr></a>
+  </c:if>
+  <c:if test='${action.action=="팔로우" and action.email!=action.fdemail}'>
+ <hr><div>${action.name}님이 ${action.fdname}님께 ${action.action} 하셨습니다. ${action.sysdate1}</div><hr>
+  </c:if>
+   <c:if test='${action.action=="댓글" and action.email!=action.fdemail}'>
+	<a href="javascript:popupcontent(${action.article_num},0)" ><hr><div>${action.name}님이 ${action.fdname}님 글에 ${action.action}을 남기셨습니다. ${action.sysdate1}</div><hr></a>
+	</c:if>
+	<c:if test='${action.action=="사진좋아요" and action.email!=action.fdemail}'>
+	<a href="javascript:popupcontent(${action.article_num},0)" ><hr><div>${action.name}님이 ${action.fdname}님 사진에 '좋아요' 하셨습니다. ${action.sysdate1}</div><hr></a>
+	</c:if>
+	
+  </c:forEach>
+  </c:if>
+ </div>
+</body>
+</html>
