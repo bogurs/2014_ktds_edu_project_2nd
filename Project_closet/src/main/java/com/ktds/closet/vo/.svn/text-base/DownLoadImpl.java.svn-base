@@ -1,0 +1,65 @@
+package com.ktds.closet.vo;
+
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.Map;
+
+import javax.imageio.ImageIO;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.web.servlet.view.AbstractView;
+
+public class DownLoadImpl extends AbstractView {
+
+	@Override
+	protected void renderMergedOutputModel(Map<String, Object> model,
+			HttpServletRequest req, HttpServletResponse res) throws Exception {
+		byte[] data = (byte[]) model.get("imagefile");
+//		byte[] changedata=generateImage(data,400,300);
+		OutputStream out = res.getOutputStream();
+//		InputStream is = new ByteArrayInputStream(changedata);
+		InputStream is = new ByteArrayInputStream(data);
+		byte[] image = new byte[1024];
+		try {
+			int temp;
+			while ((temp = is.read(image)) >= 0) {
+				out.write(image, 0, temp);
+				out.flush();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		is.close();
+		out.close();
+	}
+
+//	public static byte[] generateImage(byte[] image, int maxWidth,
+//			 int maxheight) throws IOException {
+//
+//		BufferedImage originalImg = ImageIO.read(new ByteArrayInputStream(
+//				image));
+//
+//		// get the center point for crop
+//		int[] centerPoint = { originalImg.getWidth() / 2,
+//				originalImg.getHeight() / 2 };
+//		// processing image
+//		BufferedImage targetImage = new BufferedImage(maxWidth,
+//				maxheight, BufferedImage.TYPE_INT_RGB);
+////
+//		Graphics2D graphics2D = targetImage.createGraphics();
+//		graphics2D.drawImage(originalImg, 0, 0, maxWidth, maxheight, null);
+//
+//		ByteArrayOutputStream output = new ByteArrayOutputStream();
+//		ImageIO.write(targetImage, "jpeg", output);
+//
+//		return output.toByteArray();
+//	}
+}

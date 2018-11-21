@@ -1,0 +1,96 @@
+@import url(http://fonts.googleapis.com/earlyaccess/nanumgothic.css);
+
+body{
+	font-family :'Nanum Gothic', Dotum, "돋움", Gulim, "굴림", Verdana, Arial, "Trebuchet MS";
+	overflow-y: scroll;
+	margin: 0;
+}
+
+#headerWrapper{
+	height: 88px;
+	min-width: 980px;
+	color: white;
+	font-weight: 800;
+	
+	background: #1cd8c9; /* Old browsers */
+	background: -moz-linear-gradient(top,  #1cd8c9 0%, #79e5d5 100%, #7db9e8 100%, #2989d8 100%); 
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#1cd8c9), color-stop(100%,#79e5d5), color-stop(100%,#7db9e8), color-stop(100%,#2989d8)); 
+	background: -webkit-linear-gradient(top,  #1cd8c9 0%,#79e5d5 100%,#7db9e8 100%,#2989d8 100%); 
+	background: -o-linear-gradient(top,  #1cd8c9 0%,#79e5d5 100%,#7db9e8 100%,#2989d8 100%);
+	background: -ms-linear-gradient(top,  #1cd8c9 0%,#79e5d5 100%,#7db9e8 100%,#2989d8 100%); 
+	background: linear-gradient(to bottom,  #1cd8c9 0%,#79e5d5 100%,#7db9e8 100%,#2989d8 100%); 
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1cd8c9', endColorstr='#2989d8',GradientType=0 ); 
+}
+#headerWrapper > #main_header{
+	margin: 0 auto;
+	width: 980px;
+	height: 90px;
+}
+#headerWrapper > #main_header > .main_logo_a{
+	float: left;
+	text-decoration: none;
+}
+#headerWrapper > #main_header > .main_logo_a > .main_logo{		
+	width: 170px;
+	height: 36px;
+	background-position: 0 -481px;
+	color: white;
+	font-size: 40px;
+}
+#main_header > #nav_login{
+	float: right;
+	margin: 0;
+	padding: 0;
+}
+
+#content{
+   background: url(/closet/resources/img/main.jpg);
+   margin: 0 auto;
+   position: relative;
+   zoom: 1;
+}
+#contentWrapper{
+	margin: 0;
+	outline: none;
+	padding: 0;
+	width: auto;
+	height: 600px;
+}
+#contentWrapper > #contentWrapperUnder{
+	margin: 0 auto;
+	width: 980px;
+	height: 590px;
+}
+#content > #contentWrapper > #contentWrapperUnder > #main_section{	
+	float: left;
+}
+#content > #contentWrapper > #contentWrapperUnder > #main_section > #main_sectionUnder{	
+	margin-right: 15px;
+	width: 370px;
+}
+#content > #contentWrapper > #contentWrapperUnder > #main_section > #main_sectionUnder > #advice{	
+	color: #0e385f;
+	font-size: 20px;
+	font-weight: bold;
+	line-height: 29px;
+	margin-top: 40px;
+	width: 370px;
+	word-spacing: -1px;
+}
+#content > #contentWrapper > #contentWrapperUnder > #main_section > #join{
+	width:100px;
+	height:20px;
+	font-size:20pt;
+}
+#content > #contentWrapper > #contentWrapperUnder > #main_aside{
+	float: right;
+	max-width: 560px;
+	margin-top: 100px;
+}
+
+#main_footer{	
+   color: #737373;
+   font-size: 11px;
+   margin: 0 auto;
+   width: 980px;
+}

@@ -1,0 +1,357 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ktds.closet.dao.MainDao">
+	<insert id="InsertImage" parameterType="imageVO">
+		INSERT INTO IMAGE VALUES(image_seq.nextval, #{imagefile}, #{image_name},#{physical_name}, 0, SYSDATE, article_seq.currval)
+	</insert>
+	<select id="getImageCount" parameterType="String" resultType="int">
+		select count(*) from article a where email=#{email}
+	</select>
+	<select id="getCommentCount" parameterType="int" resultType="int">
+		select count(*) from article_comment where article_num = #{article_num}
+	</select>	
+	<select id="getScrabCount" parameterType="String" resultType="int">
+		select count(*) from article where scrab_num!= 0 and email=#{email}
+	</select>
+	<select id="getLikeCountArticle" parameterType="String" resultType="int">
+		select count(*) from likeArticle where email=#{email}
+	</select>
+	<select id="getLikeCountImage" parameterType="String" resultType="int">
+		select count(*) from likeImage where email=#{email}
+	</select>	
+	<select id="getFollowingCount" parameterType="String" resultType="int">
+		select count(*) from follow where email=#{email}
+	</select>
+	<select id="getFollowerCount" parameterType="String" resultType="int">
+		select count(*) from follow where fdemail=#{email}
+	</select>
+	<select id="myArticleCount" parameterType="String" resultType="int">
+		select count(*) from article where email=#{email}
+	</select>
+	
+<!--  	메인에서 대표 이미지 갖고오는 쿼리 -->
+	<select id="mainImageDown" parameterType="java.util.HashMap" resultType="imageVO">
+	select imagefile from image
+         <if test="scrab_num!=0 and scrab_num!=''">
+           where image_num in (select max(image_num) from image where article_num =${scrab_num}
+           and favorite in (select max(favorite) from image where article_num=${scrab_num}))</if>
+	   	 <if test="scrab_num==0 and scrab_num==''"> 
+	   	 where image_num in (select max(image_num) from image where article_num =${article_num}
+           and favorite in (select max(favorite) from image where article_num=${article_num}))</if>
+	</select>
+<!-- 	 컨텐츠에서 이미지 가져오기 -->
+	<select id="contentImageDown" parameterType="int" resultType="imageVO">
+		select imagefile from image where image_num=#{image_num}
+	</select>
+<!-- 	컨텐츠에서 여러개의 이미지를 가져오기 위해 이미지 넘을 가져오는 것 -->
+	<select id="getImagenum" parameterType="int" resultType="imageVO">
+		select * from image where article_num = #{article_num} order by image_num
+	</select>
+
+	<select id="getbestImages" resultType="imageVO">
+		select rownum, image.* from (select * from image order by favorite desc) image where rownum &lt;= 5
+	</select>	
+	
+	<select id="checkFavoriteArticle" parameterType="int" resultType="String">
+		select email from likeArticle where article_num = #{article_num}
+	</select>
+	
+	<select id="checkFavoriteImage" parameterType="int" resultType="String">
+		select email from likeImage where image_num = #{image_num}
+	</select>
+	
+	<update id="addFavoriteArticle" parameterType="int">
+		update article set favorite = favorite + 1 where article_num=#{article_num}
+	</update>
+	
+	<update id="subtractFavoriteArticle" parameterType="int">
+		update article set favorite = favorite - 1 where article_num=#{article_num}
+	</update>
+	
+	<update id="addFavoriteImage" parameterType="int">
+		update image set favorite = favorite + 1 where image_num=#{image_num}
+	</update>
+	
+	<update id="subtractFavoriteImage" parameterType="int" >
+		update image set favorite = favorite - 1 where image_num=#{image_num}
+	</update>
+	<select id="selectlikeArticleNum" parameterType="int" resultType="int">
+		select COUNT(*) from likeArticle where article_num=#{article_num}
+	 </select>
+	<insert id="insertlikeArticle" parameterType="articleVO">
+		insert into likeArticle values (likeArticle_seq.nextval, #{article_num}, #{email}, #{name})
+	</insert>
+	
+	<delete id="deletelikeArticle" parameterType="articleVO">
+		delete from likeArticle where article_num = #{article_num} and email = #{email}
+	</delete>
+	
+	<insert id="insertlikeImage" parameterType="imageVO">
+		insert into likeImage values (likeImage_seq.nextval, #{image_num}, #{email}, #{name})
+	</insert>
+	
+	<delete id="deletelikeImage" parameterType="imageVO">
+		delete from likeImage where image_num = #{image_num} and email = #{email}
+	</delete>
+	<select id="selectlikeImageNum" parameterType="int" resultType="int">
+		select COUNT(*) from likeImage where image_num=#{image_num}
+	</select>
+	 
+	<select id="getArticleEmails" parameterType="int" resultType="String">
+	 	select email from likeArticle where article_num=#{article_num}
+	</select>
+	
+	<select id="getImageEmails" parameterType="int" resultType="String">
+	 	select email from likeImage where image_num=#{image_num}
+	</select>
+	 
+	<select id="getName" parameterType="String" resultType="String">
+	 	select name from member where email=#{email}
+	</select>
+	
+	<select id="searchContent" parameterType="searchVO" resultType="articleVO">
+		select * from article 
+		<if test="searchContent!=''">
+			where content like '%'||#{searchContent}||'%'
+		</if>
+		order by article_num desc
+	</select>
+	
+	<select id="searchUser" parameterType="searchVO" resultType="articleVO">
+		select * from article 
+		<if test="searchContent!=''">
+			where (email like '%'||#{searchContent}||'%' or name like '%'||#{searchContent}||'%')
+		</if>
+		order by article_num desc
+	</select>
+	
+	<select id="searchComment" parameterType="searchVO" resultType="int">
+		select distinct article_num from article_comment where comment_content like '%'||#{searchContent}||'%' order by article_num desc
+	</select>
+	<select id="searchComment2" parameterType="searchVO" resultType="int">
+		select article_num from article order by article_num desc
+	</select>
+	
+	<select id="searchCategory" parameterType="searchVO" resultType="articleVO">
+		select * from article where category = #{searchCategory} order by article_num desc
+	</select>
+	
+	<select id="searchTag" parameterType="searchVO" resultType="articleVO">
+		select * from article 
+			<if test="searchContent!=''">
+				where tag like '%'||#{searchContent}||'%'
+			</if>
+		order by article_num desc
+	</select>
+	
+	<select id="searchGender" parameterType="searchVO" resultType="articleVO">
+		<if test="searchGender==1 || searchGender==2 || searchGender==3">
+			select * from article where gender = #{searchGender} order by article_num desc
+		</if>
+		<if test="searchGender==0">
+			select * from article order by article_num desc
+		</if>
+	</select>
+	
+	<select id="searchAge" parameterType="searchVO" resultType="articleVO">
+		<if test="searchAge==1">
+			select article_num, a.email email, a.name name, content, article_date, favorite, category, scrab_num, scrabprivate, tag, tab, a.gender gender 
+			from article a, member 
+			where (a.email = member.email and checkage &lt;= #{searchAge})
+			order by article_num desc
+		</if>
+		<if test="searchAge==2 || searchAge==3">
+			select article_num, a.email email, a.name name, content, article_date, favorite, category, scrab_num, scrabprivate, tag, tab, a.gender gender 
+			from article a, member 
+			where (a.email = member.email and checkage = #{searchAge})
+			order by article_num desc
+		</if>
+		<if test="searchAge==4">
+			select article_num, a.email email, a.name name, content, article_date, favorite, category, scrab_num, scrabprivate, tag, tab, a.gender gender 
+			from article a, member 
+			where (a.email = member.email and checkage &gt;= #{searchAge})
+			order by article_num desc
+		</if>
+	</select>
+	
+	<select id="searchArticle" parameterType="searchVO" resultType="articleVO">
+		select * from article where article_num=#{article_num} order by article_num desc
+	</select>
+	
+	<select id="searchContentOrderbyHot" parameterType="searchVO" resultType="articleVO">
+		select * from article 
+		<if test="searchContent!=''">
+			where content like '%'||#{searchContent}||'%'
+		</if>
+		order by favorite desc, article_num desc
+	</select>
+	
+	<select id="searchUserOrderbyHot" parameterType="searchVO" resultType="articleVO">
+		select * from article 
+		<if test="searchContent!=''">
+			where (email like '%'||#{searchContent}||'%' or name like '%'||#{searchContent}||'%')
+		</if>
+		order by favorite desc, article_num desc
+	</select>
+	
+	<select id="searchCommentOrderbyHot" parameterType="searchVO" resultType="int">
+		select distinct article_num from article_comment where comment_content like '%'||#{searchContent}||'%' order by article_num desc
+	</select>
+	<select id="searchComment2OrderbyHot" parameterType="searchVO" resultType="int">
+		select article_num from article order by favorite desc, article_num desc
+	</select>
+	
+	<select id="searchCategoryOrderbyHot" parameterType="searchVO" resultType="articleVO">
+		select * from article where category = #{searchCategory} order by favorite desc, article_num desc
+	</select>
+	
+	<select id="searchTagOrderbyHot" parameterType="searchVO" resultType="articleVO">
+		select * from article 
+			<if test="searchContent!=''">
+				where tag like '%'||#{searchContent}||'%'
+			</if>
+		order by favorite desc, article_num desc
+	</select>
+	
+	<select id="searchGenderOrderbyHot" parameterType="searchVO" resultType="articleVO">
+		<if test="searchGender==1 || searchGender==2 || searchGender==3">
+			select * from article where gender = #{searchGender} order by favorite desc, article_num desc
+		</if>
+		<if test="searchGender==0">
+			select * from article order by favorite desc, article_num desc
+		</if>
+	</select>
+	
+	<select id="searchAgeOrderbyHot" parameterType="searchVO" resultType="articleVO">
+		<if test="searchAge==1">
+			select article_num, a.email email, a.name name, content, article_date, favorite, category, scrab_num, scrabprivate, tag, tab, a.gender gender 
+			from article a, member 
+			where (a.email = member.email and checkage &lt;= #{searchAge})
+			order by favorite desc, article_num desc
+		</if>
+		<if test="searchAge==2 || searchAge==3">
+			select article_num, a.email email, a.name name, content, article_date, favorite, category, scrab_num, scrabprivate, tag, tab, a.gender gender 
+			from article a, member 
+			where (a.email = member.email and checkage = #{searchAge})
+			order by favorite desc, article_num desc
+		</if>
+		<if test="searchAge==4">
+			select article_num, a.email email, a.name name, content, article_date, favorite, category, scrab_num, scrabprivate, tag, tab, a.gender gender 
+			from article a, member 
+			where (a.email = member.email and checkage &gt;= #{searchAge})
+			order by favorite desc, article_num desc
+		</if>
+	</select>
+	
+	<select id="searchArticleOrderbyHot" parameterType="searchVO" resultType="articleVO">
+		select * from article where article_num=#{article_num} order by favorite desc, article_num desc
+	</select>
+	
+	<select id="showArticle" parameterType="String" resultType="articleVO">
+		select * from article order by article_num desc
+	</select>
+	
+	<select id="showMyArticle" parameterType="String" resultType="articleVO">
+		select * from article where email=#{email} and scrab_num=0 order by article_num desc
+	</select>
+	
+	<select id="showMyScrab" parameterType="String" resultType="articleVO">
+		select * from article where email=#{email} and scrab_num!= 0 order by article_num desc
+	</select>
+	
+	<select id="showMyLikeArticle" parameterType="String" resultType="articleVO">
+		select l.article_num article_num, l.email email, l.name name, content, article_date, favorite, category, scrab_num, scrabprivate, tag, tab, gender
+		from article, likeArticle l
+		where article.article_num = l.article_num and l.email = #{email}
+		order by l.article_num desc
+	</select>
+	
+	<select id="showMyLikeImage" parameterType="String" resultType="articleimageVO">
+		select l.image_num image_num, l.email email, l.name name, a.article_num article_num, content, article_date, a.favorite favorite, category, scrab_num, scrabprivate, tag, tab, gender 
+		from article a, image, likeimage l 
+		where a.article_num = image.article_num and l.email = #{email} and image.image_num = l.image_num
+		order by image_num desc
+	</select>
+	
+	<select id="showContent" parameterType="int" resultType="articleVO">
+		select * from article where article_num = #{article_num}
+	</select>
+	
+	<select id="showItem" parameterType="int" resultType="itemVO">
+		select * from brand where article_num=#{article_num}
+	</select>
+
+	<insert id="writeArticle" parameterType="articleVO">
+		insert into article values (article_seq.nextval, #{email}, #{name}, #{content}, sysdate, 0, #{category}, 0, #{scrabPrivate}, #{tag}, #{tab}, #{gender})
+	</insert>
+	
+	<insert id="insertBrand" parameterType="itemVO">
+		insert into brand values (article_seq.currval, #{jacket}, #{tshirt}, #{pants}, #{sneakers}, #{dress}, #{socks})
+	</insert>
+	
+	<delete id="deleteArticle" parameterType="int">
+		delete from article where article_num=#{article_num}
+	</delete>
+
+	<select id="showComment" parameterType="int" resultType="commentVO">
+		select * from article_comment where article_num = #{article_num} order by comment_num desc
+	</select>
+
+	<insert id="insertComment" parameterType="commentVO">
+		insert into article_comment values (comment_seq.nextval, #{email}, #{comment_content}, sysdate, #{article_num})
+	</insert>
+	
+	<delete id="deleteComment" parameterType="int">
+		delete from article_comment where comment_num = #{comment_num}
+	</delete>
+	
+	<!-- 스크랩 기능 -->		
+	<insert id="scrabInput" parameterType="articleVO">
+		insert into article values (article_seq.nextval, #{email}, #{name}, #{content}, sysdate, 0, #{category}, #{article_num}, #{scrabPrivate}, #{tag}, #{tab}, #{gender})
+	</insert>
+	
+	<!-- 카테고리 -->
+	<select id="category" parameterType="HashMap" resultType="articleVO">
+		select * from article where email = #{email} and category=#{category} order by article_num desc
+	</select>
+	
+	<!-- 추천글(최신 article_num 가져오기) -->
+	<select id="getLatestArticleNum" parameterType="String" resultType="Int">
+		select max(article_num) from article where email = #{email}
+	</select>
+
+
+	<select id="getbrand" parameterType="Int" resultType="itemVO">
+		select * from brand where article_num=#{article_num}
+	</select>
+	
+	<select id="getGenderByArticleNum" parameterType="Int" resultType="Int">
+		select gender from article where article_num=#{article_num}
+	</select>
+
+	<select id="getrecommendarticle" parameterType="HashMap" resultType="articleVO">
+		select * from article where email != #{email} and article_num in (select article_num from brand where jacket=#{jacket} or tshirt=#{tshirt} or pants=#{pants} or sneakers=#{sneakers} or socks=#{socks} or dress=#{dress})
+	</select>
+	
+	<select id="brandReqCount" parameterType="HashMap" resultType="int">
+		select count(*) from article where email != #{email} and article_num in (select article_num from brand where jacket=#{jacket} or tshirt=#{tshirt} or pants=#{pants} or sneakers=#{sneakers} or socks=#{socks} or dress=#{dress})
+	</select>
+	
+	<!-- 해당 article_num을 통한 article 테이블에 태그가 있는지 확인 -->
+	<select id="getTagInArticleTable" parameterType="Int" resultType="String">
+		select tag from article where article_num=#{article_num}
+	</select>
+	
+	<!-- 태그명으로 추천글가져오기 -->
+	<select id="getTagRecommend" parameterType="HashMap" resultType="articleVO">
+		select * from article where tag like '%'||#{tag}||'%' and email != #{email} order by article_num desc
+	</select>
+	
+	<select id="getTagRecommendCount" parameterType="HashMap" resultType="int">
+		select count(*) from article where tag like '%'||#{tag}||'%' and email != #{email} order by article_num desc
+	</select>
+
+</mapper>
