@@ -415,5 +415,4 @@ public class EtcController {
 		mav.setViewName("JSON");
 		return mav;
 	}
-
 }
